@@ -1,33 +1,58 @@
 var startButton = document.querySelector("#startButton");
 var score = 0;
 var timer = 100;
-
+var timerEl = document.createElement("h1");
 var questions = [
     {
-        question: "What color is the sky?",
-        option1: "Purple",
-        option2: "Blue",
-        option3: "Chartreuse",
-        option4: "pink",
-        correctAnswer: "Blue"
+        question: "How do you display a message on the console?",
+        option1: "message.display",
+        option2: "display.console",
+        option3: "message.log",
+        option4: "console.log",
+        correctAnswer: "console.log"
     },
     {
-        question: "What color is the skypp?",
-        option1: "Purple",
-        option2: "Blue",
-        option3: "Chartreuse",
-        option4: "pink",
-        correctAnswer: "Blue"
+        question: "Which of the following is a set of statements that performs a task or calculates a value",
+        option1: "function",
+        option2: "array",
+        option3: "object",
+        option4: "boolean",
+        correctAnswer: "function"
+    }
+    {
+        question: "In which HTML element do we put javascript inside?",
+        option1: "<javascript>",
+        option2: "<script>",
+        option3: "<js>",
+        option4: "<scripting>",
+        correctAnswer: "<script>"
+    }   
+    {
+        question: "Javascript and Java are the same",
+        option1: "True",
+        option2: "False",
+        correctAnswer: "False"
+        
+    }
+    {
+        question: "How do you write a comment in javascript?",
+        option1: "//comment",
+        option2: "'comment'",
+        option3: "<!--comment-->",
+        option4: "comments are not allowed in javascript",
+        correctAnswer: "//comment"
     }
 ]
+
+
 
 function checkAnswer (selectedOption){
 
     console.log('option', selectedOption)
     if (selectedOption === questions[0].correctAnswer){
-        //increment score
+        score++;
         // should go to next question
-        console.log('correct')
+        console.log(score)
     }else{
         //timer -= 10 => minus time
         //Should go to next question
@@ -40,6 +65,7 @@ console.log("Test");
 startButton.setAttribute("style", "display:none")
 
  var questionTitleEl = document.createElement('h2'); 
+ //run a for loop
  var option1El = document.createElement('button');
  var option2El = document.createElement('button');
  var option3El = document.createElement('button');
