@@ -18,7 +18,7 @@ var questions = [
         option3: "object",
         option4: "boolean",
         correctAnswer: "function"
-    }
+    },
     {
         question: "In which HTML element do we put javascript inside?",
         option1: "<javascript>",
@@ -26,14 +26,14 @@ var questions = [
         option3: "<js>",
         option4: "<scripting>",
         correctAnswer: "<script>"
-    }   
+    },  
     {
         question: "Javascript and Java are the same",
         option1: "True",
         option2: "False",
         correctAnswer: "False"
         
-    }
+    },
     {
         question: "How do you write a comment in javascript?",
         option1: "//comment",
@@ -61,27 +61,35 @@ function checkAnswer (selectedOption){
 }
 
 function startQuiz () {
-console.log("Test"); 
+// console.log("Test"); 
 startButton.setAttribute("style", "display:none")
 
  var questionTitleEl = document.createElement('h2'); 
- //run a for loop
+ 
+
  var option1El = document.createElement('button');
  var option2El = document.createElement('button');
  var option3El = document.createElement('button');
  var option4El = document.createElement('button');
  
+
+//  for (i = 0; i < questions.length; i++) {
+//     questions[i].textContent;
+//  }
  questionTitleEl.textContent = questions[0].question;
- option1El.textContent = questions[0].option1;
+  option1El.textContent = questions[0].option1;
  option2El.textContent = questions[0].option2;
  option3El.textContent = questions[0].option3;
  option4El.textContent = questions[0].option4;
  
- document.body.appendChild(questionTitleEl);
- document.body.appendChild(option1El)
- document.body.appendChild(option2El)
-document.body.appendChild(option3El)
-document.body.appendChild(option4El)
+ 
+ 
+ document.body.append(questionTitleEl, option1El, option2El, option3El, option4El);
+//  document.body.appendChild(option1El)
+//  document.body.appendChild(option2El)
+// document.body.appendChild(option3El)
+// document.body.appendChild(option4El)
+
 
 option1El.addEventListener("click", function(){
     checkAnswer(questions[0].option1)
