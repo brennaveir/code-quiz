@@ -4,11 +4,10 @@
 }
 
 header {
-    /* background-color: darksalmon; */
     color: darkRed;
-    display:flex;
-    justify-content: center;
-    /* padding:40px; */
+   display:flex;
+   flex-direction: column;
+   align-items: center;
 }
 
 body {
@@ -25,6 +24,10 @@ body {
 h2 {
     font-size: 27px;
     text-decoration: underline;
+}
+
+#timer {
+    font-size:16px;
 }
 
 button {

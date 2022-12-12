@@ -1,7 +1,7 @@
 var startButton = document.querySelector("#startButton");
 var score = 0;
 var timer = 100;
-var timerEl = document.createElement("h1");
+var timerEl = document.getElementById("timer");
 var questions = [
     {
         question: "How do you display a message on the console?",
@@ -44,7 +44,17 @@ var questions = [
     }
 ]
 
+function timeLeft () {
+    var timerInterval = setInterval(function () {
+        timer--;
+        timerEl.textContent = `${timer} seconds left`;
 
+        if(timer === 0) {
+            clearInterval(timerInterval);
+            //display score and allow user to input initials
+        }
+    }, 1000)
+}
 
 function checkAnswer (selectedOption){
 
@@ -52,30 +62,28 @@ function checkAnswer (selectedOption){
     if (selectedOption === questions[0].correctAnswer){
         score++;
         // should go to next question
-        console.log(score)
+        // console.log(score)
     }else{
-        //timer -= 10 => minus time
+        timer -= 10;
         //Should go to next question
-        console.log('wrong')
+        // console.log('wrong')
     }
 }
 
 function startQuiz () {
 // console.log("Test"); 
 startButton.setAttribute("style", "display:none")
+timeLeft();
+
 
  var questionTitleEl = document.createElement('h2'); 
- 
-
  var option1El = document.createElement('button');
  var option2El = document.createElement('button');
  var option3El = document.createElement('button');
  var option4El = document.createElement('button');
  
 
-//  for (i = 0; i < questions.length; i++) {
-//     questions[i].textContent;
-//  }
+
  questionTitleEl.textContent = questions[0].question;
   option1El.textContent = questions[0].option1;
  option2El.textContent = questions[0].option2;
