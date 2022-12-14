@@ -1,17 +1,14 @@
 //global variables
 var startButton = document.querySelector("#startButton");
-var questionTitleEl = document.createElement('h2'); 
- var option1El = document.createElement('button');
- var option2El = document.createElement('button');
- var option3El = document.createElement('button');
- var option4El = document.createElement('button');
 var score = 0;
 var scoreEl= document.getElementById("score")
 var timer = 100;
 var timerEl = document.getElementById("timer");
 var currentQuestion = 0
+var containerEl = document.getElementById('container')
 
 var initials = document.createElement("input")
+var timerInterval
 
 //Quiz questions
 var questions = [
@@ -44,237 +41,118 @@ var questions = [
 ]
 
 //enter initals and save score
-function saveScores () {
-     var storedScores = localStorage.getItem("scores")      
-    localStorage.setItem("score", storedScores);
-            initials.setAttribute("type", "text")
-            document.body.appendChild(initials)
-            console.log(initials)
+function saveScores (initials) {
+    console.log(initials, score)
+
+    var newScores = {
+        initials, 
+        score
+    }
+
+     var storedScores = localStorage.getItem("scores")  || [] 
+     storedScores.push(newScores)   
+   localStorage.setItem("scores", JSON.stringify(storedScores));
+        
+            
 }
 
 //set timer
 function timeLeft () {
-    var timerInterval = setInterval(function () {
-        timer--;
 
-        if (timer >= 1)
+        timer--;
         timerEl.textContent = `${timer} seconds left`;
 
-        else if(timer === 0) {
+        if(timer === 0){
             timerEl.textContent = "";
             clearInterval(timerInterval);
             document.body.removeChild(questionTitleEl, option1El, option2El, option3El, option4El);
            saveScores()
         }
-    }, 1000)
+
 }
 
 //check if answer is correct or incorrect
 function checkAnswer (selectedOption){
 
     console.log('option', selectedOption)
-    if (selectedOption === questions[0].correctAnswer){
-        score++;
-        scoreEl.textContent = "Score = " + score + "/5";
-       currentQuestion++;
-       startQuiz();
-        
-        console.log("correct")
-    }
-    else if (selectedOption === questions[1].correctAnswer){
-        score++;
-        scoreEl.textContent = "Score = " + score + "/5";
-       currentQuestion++;
-       startQuiz();
-        
-        console.log("correct")
-    }
-    else if (selectedOption === questions[2].correctAnswer){
-    score++;
-    scoreEl.textContent = "Score = " + score + "/5";
-   currentQuestion++;
-   startQuiz();
-    
-    console.log("correct")
-    }
-    else if (selectedOption === questions[3].correctAnswer){
-        score++;
-        scoreEl.textContent = "Score = " + score + "/5";
-       currentQuestion++;
-       startQuiz();
-        
-        console.log("correct")
-        }
-    else if (selectedOption === questions[4].correctAnswer){
-            score++;
-            scoreEl.textContent = "Score = " + score + "/5";
-           currentQuestion++;
-           startQuiz();
-            
-            console.log("correct")
-            }
-    else {
-        // timer = timer - 10;
-        scoreEl.textContent = "Score = " + score + "/5";
-        currentQuestion++;
 
-        
+    if (selectedOption === questions[currentQuestion].correctAnswer){
+        score++;
+        scoreEl.textContent = "Score = " + score + "/5";
+        console.log("correct")
+    }else {
+        timer -= 10;
+        timerEl.textContent = timer + " seconds left";
+        scoreEl.textContent = "Score = " + score + "/5"; 
         console.log('wrong')
-        startQuiz()
+       
     }
+
+    currentQuestion++;
+
+
+    if(currentQuestion === 5){
+        //quiz should end
+        timerEl.textContent = "";
+        scoreEl.textContent = "";
+        clearInterval(timerInterval);
+        containerEl.innerHTML = '';
+        initials.setAttribute("type", "text");
+        var saveInitialsButton = document.createElement("button")
+        saveInitialsButton.textContent = "Save initials"
+        containerEl.append(initials, saveInitialsButton);
+        saveInitialsButton.addEventListener("click", function(){
+            saveScores(initials.value)
+        } )
+
+     //  initials.appendChild(saveInitialsButton);
+    }else{
+        answerQuestions()
+    }
+
+}
+
+function answerQuestions (){
+    containerEl.innerHTML = ''
+    var questionTitleEl = document.createElement('h2'); 
+ var option1El = document.createElement('button');
+ var option2El = document.createElement('button');
+ var option3El = document.createElement('button');
+ var option4El = document.createElement('button');
+
+    questionTitleEl.textContent = questions[currentQuestion].question;
+    option1El.textContent = questions[currentQuestion].choices[0];
+     option2El.textContent = questions[currentQuestion].choices[1];
+     option3El.textContent = questions[currentQuestion].choices[2];
+     option4El.textContent = questions[currentQuestion].choices[3];
+     
+     containerEl.append(questionTitleEl, option1El, option2El, option3El, option4El);
+    
+    option1El.addEventListener("click", function(){
+        checkAnswer(questions[currentQuestion].choices[0])
+    });
+    option2El.addEventListener("click", function(){
+        checkAnswer(questions[currentQuestion].choices[1])
+    });
+    option3El.addEventListener("click", function(){
+        checkAnswer(questions[currentQuestion].choices[2])
+    });
+    option4El.addEventListener("click", function(){
+        checkAnswer(questions[currentQuestion].choices[3])
+    });
+
 }
 
 //ititiate quiz and go through array of questions
 function startQuiz () {
 // console.log("Test"); 
 startButton.setAttribute("style", "display:none")
-timeLeft();
+//timeLeft();
 
-//Question 1
- if (currentQuestion === 0) { 
+timerInterval = setInterval(timeLeft, 1000)
 
-questionTitleEl.textContent = questions[0].question;
-option1El.textContent = questions[0].choices[0];
- option2El.textContent = questions[0].choices[1];
- option3El.textContent = questions[0].choices[2];
- option4El.textContent = questions[0].choices[3];
- 
-document.body.append(questionTitleEl, option1El, option2El, option3El, option4El);
+answerQuestions();
 
-
-
-option1El.addEventListener("click", function(){
-    checkAnswer(questions[0].choices[0])
-});
-option2El.addEventListener("click", function(){
-    checkAnswer(questions[0].choices[1])
-});
-option3El.addEventListener("click", function(){
-    checkAnswer(questions[0].choices[2])
-});
-option4El.addEventListener("click", function(){
-    checkAnswer(questions[0].choices[3])
-});;
-}
- 
-//Question 2
-if (currentQuestion === 1) { 
-    document.body.removeChild(questionTitleEl, option1El, option2El, option3El, option4El)
-    
-    questionTitleEl.textContent = questions[1].question;
-    option1El.textContent = questions[1].choices[0];
-     option2El.textContent = questions[1].choices[1];
-     option3El.textContent = questions[1].choices[2];
-     option4El.textContent = questions[1].choices[3];
-     
-    document.body.append(questionTitleEl, option1El, option2El, option3El, option4El);
-   
-    
-    
-    option1El.addEventListener("click", function(){
-        checkAnswer(questions[1].choices[0])
-    });
-    option2El.addEventListener("click", function(){
-        checkAnswer(questions[1].choices[1])
-    });
-    option3El.addEventListener("click", function(){
-        checkAnswer(questions[1].choices[2])
-    });
-    option4El.addEventListener("click", function(){
-        checkAnswer(questions[1].choices[3])
-    });;
-    }
-
-    //Question 3
-    if (currentQuestion === 2) { 
-        document.body.removeChild(questionTitleEl, option1El, option2El, option3El, option4El);
-        
-        questionTitleEl.textContent = questions[2].question;
-        option1El.textContent = questions[2].choices[0];
-         option2El.textContent = questions[2].choices[1];
-         option3El.textContent = questions[2].choices[2];
-         option4El.textContent = questions[2].choices[3];
-         
-        document.body.append(questionTitleEl, option1El, option2El, option3El, option4El);
-       
-        
-        
-        option1El.addEventListener("click", function(){
-            checkAnswer(questions[2].choices[0])
-        });
-        option2El.addEventListener("click", function(){
-            checkAnswer(questions[2].choices[1])
-        });
-        option3El.addEventListener("click", function(){
-            checkAnswer(questions[2].choices[2])
-        });
-        option4El.addEventListener("click", function(){
-            checkAnswer(questions[2].choices[3])
-        });;
-        }
-        
-        //Question 4
-        if (currentQuestion === 3) { 
-            document.body.removeChild(questionTitleEl, option1El, option2El, option3El, option4El)
-            
-            questionTitleEl.textContent = questions[3].question;
-            option1El.textContent = questions[3].choices[0];
-             option2El.textContent = questions[3].choices[1];
-             option3El.textContent = questions[3].choices[2];
-             option4El.textContent = questions[3].choices[3];
-            
-             document.body.append(questionTitleEl, option1El, option2El, option3El, option4El);
-           
-            
-            
-            option1El.addEventListener("click", function(){
-                checkAnswer(questions[3].choices[0])
-            });
-            option2El.addEventListener("click", function(){
-                checkAnswer(questions[3].choices[1])
-            });
-            option2El.addEventListener("click", function(){
-                checkAnswer(questions[3].choices[2])
-            });
-            option2El.addEventListener("click", function(){
-                checkAnswer(questions[3].choices[3])
-            });
-            }
-
-            //Question 5
-            if (currentQuestion === 4) { 
-                document.body.removeChild(questionTitleEl, option1El, option2El)
-                questionTitleEl.textContent = questions[4].question;
-                option1El.textContent = questions[4].choices[0];
-                 option2El.textContent = questions[4].choices[1];
-                 option3El.textContent = questions[4].choices[2];
-                 option4El.textContent = questions[4].choices[3];
-                 
-                document.body.append(questionTitleEl, option1El, option2El, option3El, option4El);
-                //  document.body.appendChild(option1El)
-                //  document.body.appendChild(option2El)
-                // document.body.appendChild(option3El)
-                // document.body.appendChild(option4El)
-                
-                
-                option1El.addEventListener("click", function(){
-                    checkAnswer(questions[4].choices[0])
-                });
-                option2El.addEventListener("click", function(){
-                    checkAnswer(questions[4].choices[1])
-                });
-                option3El.addEventListener("click", function(){
-                    checkAnswer(questions[4].choices[2])
-                });
-                option4El.addEventListener("click", function(){
-                    checkAnswer(questions[4].choices[3])
-                });;
-                }
-                    if (currentQuestion === 5) {
-                        document.body.removeChild(questionTitleEl, option1El, option2El);
-                        saveScores();
-
-                    }
 }
 
     
