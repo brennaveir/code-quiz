@@ -1,55 +1,75 @@
+//global variables
 var startButton = document.querySelector("#startButton");
+var questionTitleEl = document.createElement('h2'); 
+ var option1El = document.createElement('button');
+ var option2El = document.createElement('button');
+ var option3El = document.createElement('button');
+ var option4El = document.createElement('button');
 var score = 0;
 var scoreEl= document.getElementById("score")
 var timer = 100;
 var timerEl = document.getElementById("timer");
 var currentQuestion = 0
-var storedScores = []
+
+var initials = document.createElement("input")
+
+//Quiz questions
 var questions = [
     {
         question: "How do you display a message on the console?",
         choices: ["message.display","display.console","message.log","console.log"],
-       correctAnswer: 3,
+       correctAnswer: "console.log",
     },
     {
         question: "Which of the following is a set of statements that performs a task or calculates a value",
         choices: ["function","array","object","boolean"],
-        correctAnswer: 0
+        correctAnswer: "function"
     },
     {
         question: "In which HTML element do we put javascript inside?",
-        choices: ["<javascript>","<script>","<js>","<scripting>",],
-        correctAnswer: 1
+        choices: ["<javascript>","<script>","<js>","<scripting>"],
+        correctAnswer: "<script>"
     },  
     {
-        question: "Javascript and Java are the same",
-        choices: ["True","False",],
-        correctAnswer: 1
+        question: "Javascript has a file extension of:",
+        choices: [".java",".javascript", ".js", ".script"],
+        correctAnswer: ".js"
         
     },
     {
         question: "How do you write a comment in javascript?",
-        choices: ["//comment","'comment'","<!--comment-->","comments are not allowed in javascript",
-    ],
-        correctAnswer: 0
+        choices: ["//comment","'comment'","<!--comment-->","comments are not allowed in javascript"],
+        correctAnswer: "//comment"
     }
 ]
 
+//enter initals and save score
+function saveScores () {
+     var storedScores = localStorage.getItem("scores")      
+    localStorage.setItem("score", storedScores);
+            initials.setAttribute("type", "text")
+            document.body.appendChild(initials)
+            console.log(initials)
+}
 
-
+//set timer
 function timeLeft () {
     var timerInterval = setInterval(function () {
         timer--;
+
+        if (timer >= 1)
         timerEl.textContent = `${timer} seconds left`;
 
-        if(timer === 0) {
+        else if(timer === 0) {
+            timerEl.textContent = "";
             clearInterval(timerInterval);
-            storedScores.push(score + "/5")
-            //enter initials
+            document.body.removeChild(questionTitleEl, option1El, option2El, option3El, option4El);
+           saveScores()
         }
     }, 1000)
 }
 
+//check if answer is correct or incorrect
 function checkAnswer (selectedOption){
 
     console.log('option', selectedOption)
@@ -58,7 +78,7 @@ function checkAnswer (selectedOption){
         scoreEl.textContent = "Score = " + score + "/5";
        currentQuestion++;
        startQuiz();
-        // should go to next question
+        
         console.log("correct")
     }
     else if (selectedOption === questions[1].correctAnswer){
@@ -66,7 +86,7 @@ function checkAnswer (selectedOption){
         scoreEl.textContent = "Score = " + score + "/5";
        currentQuestion++;
        startQuiz();
-        // should go to next question
+        
         console.log("correct")
     }
     else if (selectedOption === questions[2].correctAnswer){
@@ -74,7 +94,7 @@ function checkAnswer (selectedOption){
     scoreEl.textContent = "Score = " + score + "/5";
    currentQuestion++;
    startQuiz();
-    // should go to next question
+    
     console.log("correct")
     }
     else if (selectedOption === questions[3].correctAnswer){
@@ -82,7 +102,7 @@ function checkAnswer (selectedOption){
         scoreEl.textContent = "Score = " + score + "/5";
        currentQuestion++;
        startQuiz();
-        // should go to next question
+        
         console.log("correct")
         }
     else if (selectedOption === questions[4].correctAnswer){
@@ -90,33 +110,29 @@ function checkAnswer (selectedOption){
             scoreEl.textContent = "Score = " + score + "/5";
            currentQuestion++;
            startQuiz();
-            // should go to next question
+            
             console.log("correct")
             }
     else {
-        timer = timer - 10;
+        // timer = timer - 10;
         scoreEl.textContent = "Score = " + score + "/5";
         currentQuestion++;
 
-        //Should go to next question
+        
         console.log('wrong')
         startQuiz()
     }
 }
 
+//ititiate quiz and go through array of questions
 function startQuiz () {
 // console.log("Test"); 
 startButton.setAttribute("style", "display:none")
 timeLeft();
 
-
- var questionTitleEl = document.createElement('h2'); 
- var option1El = document.createElement('button');
- var option2El = document.createElement('button');
- var option3El = document.createElement('button');
- var option4El = document.createElement('button');
-
+//Question 1
  if (currentQuestion === 0) { 
+
 questionTitleEl.textContent = questions[0].question;
 option1El.textContent = questions[0].choices[0];
  option2El.textContent = questions[0].choices[1];
@@ -124,10 +140,7 @@ option1El.textContent = questions[0].choices[0];
  option4El.textContent = questions[0].choices[3];
  
 document.body.append(questionTitleEl, option1El, option2El, option3El, option4El);
-//  document.body.appendChild(option1El)
-//  document.body.appendChild(option2El)
-// document.body.appendChild(option3El)
-// document.body.appendChild(option4El)
+
 
 
 option1El.addEventListener("click", function(){
@@ -143,8 +156,11 @@ option4El.addEventListener("click", function(){
     checkAnswer(questions[0].choices[3])
 });;
 }
-
+ 
+//Question 2
 if (currentQuestion === 1) { 
+    document.body.removeChild(questionTitleEl, option1El, option2El, option3El, option4El)
+    
     questionTitleEl.textContent = questions[1].question;
     option1El.textContent = questions[1].choices[0];
      option2El.textContent = questions[1].choices[1];
@@ -152,10 +168,7 @@ if (currentQuestion === 1) {
      option4El.textContent = questions[1].choices[3];
      
     document.body.append(questionTitleEl, option1El, option2El, option3El, option4El);
-    //  document.body.appendChild(option1El)
-    //  document.body.appendChild(option2El)
-    // document.body.appendChild(option3El)
-    // document.body.appendChild(option4El)
+   
     
     
     option1El.addEventListener("click", function(){
@@ -172,7 +185,10 @@ if (currentQuestion === 1) {
     });;
     }
 
+    //Question 3
     if (currentQuestion === 2) { 
+        document.body.removeChild(questionTitleEl, option1El, option2El, option3El, option4El);
+        
         questionTitleEl.textContent = questions[2].question;
         option1El.textContent = questions[2].choices[0];
          option2El.textContent = questions[2].choices[1];
@@ -180,10 +196,7 @@ if (currentQuestion === 1) {
          option4El.textContent = questions[2].choices[3];
          
         document.body.append(questionTitleEl, option1El, option2El, option3El, option4El);
-        //  document.body.appendChild(option1El)
-        //  document.body.appendChild(option2El)
-        // document.body.appendChild(option3El)
-        // document.body.appendChild(option4El)
+       
         
         
         option1El.addEventListener("click", function(){
@@ -196,20 +209,22 @@ if (currentQuestion === 1) {
             checkAnswer(questions[2].choices[2])
         });
         option4El.addEventListener("click", function(){
-            checkAnswer(questions[2].choies[3])
+            checkAnswer(questions[2].choices[3])
         });;
         }
-
+        
+        //Question 4
         if (currentQuestion === 3) { 
+            document.body.removeChild(questionTitleEl, option1El, option2El, option3El, option4El)
+            
             questionTitleEl.textContent = questions[3].question;
             option1El.textContent = questions[3].choices[0];
              option2El.textContent = questions[3].choices[1];
-             
-            document.body.append(questionTitleEl, option1El, option2El);
-            //  document.body.appendChild(option1El)
-            //  document.body.appendChild(option2El)
-            // document.body.appendChild(option3El)
-            // document.body.appendChild(option4El)
+             option3El.textContent = questions[3].choices[2];
+             option4El.textContent = questions[3].choices[3];
+            
+             document.body.append(questionTitleEl, option1El, option2El, option3El, option4El);
+           
             
             
             option1El.addEventListener("click", function(){
@@ -218,9 +233,17 @@ if (currentQuestion === 1) {
             option2El.addEventListener("click", function(){
                 checkAnswer(questions[3].choices[1])
             });
+            option2El.addEventListener("click", function(){
+                checkAnswer(questions[3].choices[2])
+            });
+            option2El.addEventListener("click", function(){
+                checkAnswer(questions[3].choices[3])
+            });
             }
 
+            //Question 5
             if (currentQuestion === 4) { 
+                document.body.removeChild(questionTitleEl, option1El, option2El)
                 questionTitleEl.textContent = questions[4].question;
                 option1El.textContent = questions[4].choices[0];
                  option2El.textContent = questions[4].choices[1];
@@ -247,8 +270,13 @@ if (currentQuestion === 1) {
                     checkAnswer(questions[4].choices[3])
                 });;
                 }
+                    if (currentQuestion === 5) {
+                        document.body.removeChild(questionTitleEl, option1El, option2El);
+                        saveScores();
+
+                    }
 }
 
     
-
+//listen for start listen to be clicked
 startButton.addEventListener("click", startQuiz);
