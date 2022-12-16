@@ -1,14 +1,16 @@
 //global variables
 var startButton = document.querySelector("#startButton");
-var score = 0;
+var currentScore = 0;
 var scoreEl= document.getElementById("score")
 var timer = 100;
 var timerEl = document.getElementById("timer");
 var currentQuestion = 0
-var containerEl = document.getElementById('container')
-
+var containerEl = document.getElementById("container")
+var cardEl = document.getElementById("card")
 var initials = document.createElement("input")
 var timerInterval
+var scoreHistoryEl = document.querySelector("#scoreHistory")
+var allScores = []
 
 //Quiz questions
 var questions = [
@@ -40,17 +42,24 @@ var questions = [
     }
 ]
 
-//enter initals and save score
-function saveScores (initials) {
-    var newScores = {
-        initials, 
-        score
-    }
 
-     var storedScores = localStorage.getItem("score") || [];
-    storedScores.push(newScores); 
-   localStorage.setItem("score", JSON.stringify(storedScores));
-        
+
+
+function getScores () {
+   var retrieveScores = localStorage.getItem("newScores")
+   allScores = retrieveScores;
+   scoreHistoryEl.textContent = allScores;
+}
+
+//enter initals and save score
+function saveScores (initials) { 
+    var newScores = {
+        initials,
+        currentScore
+    }
+    localStorage.setItem("newScores", JSON.stringify(newScores));
+  
+       getScores(); 
             
 }
 
@@ -63,7 +72,8 @@ function timeLeft () {
         if(timer === 0){
             timerEl.textContent = "";
             clearInterval(timerInterval);
-            document.body.removeChild(questionTitleEl, option1El, option2El, option3El, option4El);
+            containerEl.textContent= "";
+            // document.body.removeChild(questionTitleEl, option1El, option2El, option3El, option4El);
            saveScores()
         }
 
@@ -75,13 +85,13 @@ function checkAnswer (selectedOption){
     console.log('option', selectedOption)
 
     if (selectedOption === questions[currentQuestion].correctAnswer){
-        score++;
-        scoreEl.textContent = "Score = " + score + "/5";
+        currentScore++;
+        scoreEl.textContent = "Score = " + currentScore + "/5";
         console.log("correct")
     }else {
         timer -= 10;
         timerEl.textContent = timer + " seconds left";
-        scoreEl.textContent = "Score = " + score + "/5"; 
+        scoreEl.textContent = "Score = " + currentScore + "/5"; 
         console.log('wrong')
        
     }
@@ -92,7 +102,6 @@ function checkAnswer (selectedOption){
     if(currentQuestion === 5){
         //quiz should end
         timerEl.textContent = "";
-        scoreEl.textContent = "";
         clearInterval(timerInterval);
         containerEl.innerHTML = '';
         initials.setAttribute("type", "text");
@@ -102,6 +111,7 @@ function checkAnswer (selectedOption){
         saveInitialsButton.addEventListener("click", function(){
             saveScores(initials.value)
             containerEl.innerHTML = "";
+            scoreEl.textContent = "";
         } )
 
      //  initials.appendChild(saveInitialsButton);
@@ -146,6 +156,7 @@ function answerQuestions (){
 function startQuiz () {
 // console.log("Test"); 
 startButton.setAttribute("style", "display:none")
+allScoresEl = ""
 //timeLeft();
 
 timerInterval = setInterval(timeLeft, 1000)

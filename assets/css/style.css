@@ -49,3 +49,7 @@ button:hover {
     flex-direction: column;
     align-items: center;
 }
+
+#card {
+    display:none;
+}
