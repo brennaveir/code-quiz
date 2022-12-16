@@ -42,16 +42,14 @@ var questions = [
 
 //enter initals and save score
 function saveScores (initials) {
-    console.log(initials, score)
-
     var newScores = {
         initials, 
         score
     }
 
-     var storedScores = localStorage.getItem("scores")  || [] 
-     storedScores.push(newScores)   
-   localStorage.setItem("scores", JSON.stringify(storedScores));
+     var storedScores = localStorage.getItem("score") || [];
+    storedScores.push(newScores); 
+   localStorage.setItem("score", JSON.stringify(storedScores));
         
             
 }
@@ -103,6 +101,7 @@ function checkAnswer (selectedOption){
         containerEl.append(initials, saveInitialsButton);
         saveInitialsButton.addEventListener("click", function(){
             saveScores(initials.value)
+            containerEl.innerHTML = "";
         } )
 
      //  initials.appendChild(saveInitialsButton);
