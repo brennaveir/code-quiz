@@ -9,8 +9,12 @@ var containerEl = document.getElementById("container")
 var cardEl = document.getElementById("card")
 var initials = document.createElement("input")
 var timerInterval
-var scoreHistoryEl = document.querySelector("#scoreHistory")
-var allScores = []
+var scoreHistoryEl = document.getElementById("scoreHistory");
+
+
+
+
+
 
 //Quiz questions
 var questions = [
@@ -45,22 +49,31 @@ var questions = [
 
 
 
-function getScores () {
-   var retrieveScores = localStorage.getItem("newScores")
-   allScores = retrieveScores;
-   scoreHistoryEl.textContent = allScores;
-}
+// function getScores () {
+//    var retrieveScores = JSON.parse(localStorage.getItem("newScores")) || [];
+// // console.log(retrieveScores)
+//    allScores = retrieveScores;
+//    scoreHistoryEl.textContent = allScores;
+// }
 
 //enter initals and save score
 function saveScores (initials) { 
+    
+  
+    
     var newScores = {
         initials,
         currentScore
     }
-    localStorage.setItem("newScores", JSON.stringify(newScores));
-  
-       getScores(); 
-            
+
+    
+    var storedScores = JSON.stringify(localStorage.setItem(initials, currentScore))  || []; 
+     storedScores.push(newScores);   
+     JSON.parse(localStorage.getItem("scores", (storedScores)));
+     scoreHistoryEl.innerHTML = ???????
+    
+    
+
 }
 
 //set timer
@@ -156,7 +169,7 @@ function answerQuestions (){
 function startQuiz () {
 // console.log("Test"); 
 startButton.setAttribute("style", "display:none")
-allScoresEl = ""
+scoreHistoryEl.innerText = ""
 //timeLeft();
 
 timerInterval = setInterval(timeLeft, 1000)
