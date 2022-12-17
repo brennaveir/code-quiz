@@ -53,3 +53,7 @@ button:hover {
 #card {
     display:none;
 }
+
+li {
+    display: block;
+}

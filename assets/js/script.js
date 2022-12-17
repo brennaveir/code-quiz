@@ -6,7 +6,7 @@ var timer = 100;
 var timerEl = document.getElementById("timer");
 var currentQuestion = 0
 var containerEl = document.getElementById("container")
-var cardEl = document.getElementById("card")
+var unorderedListEl = document.getElementById("scoreHistory")
 var initials = document.createElement("input")
 var timerInterval
 var scoreHistoryEl = document.getElementById("scoreHistory");
@@ -61,22 +61,32 @@ function saveScores (initials) {
     
   
     
-    var newScores = {
+    var newScores = 
+        {
         initials,
         currentScore
     }
+    
+    //push scores into array with objects
 
     
-    var storedScores = JSON.stringify(localStorage.setItem(initials, currentScore))  || []; 
-     storedScores.push(newScores);   
-     JSON.parse(localStorage.getItem("scores", (storedScores)));
-     scoreHistoryEl.innerHTML = ???????
+    localStorage.setItem("newScores", JSON.stringify(newScores)) || [];
+    //  storedScores.push(newScores);   
+    var allScores = JSON.parse(localStorage.getItem("newScores"));
     
+    var initialsLi = document.createElement('li');
+   
+
+    initialsLi.textContent = "Initials: " + allScores.initials + " " + "Score: " +  allScores.currentScore;
+
+    scoreHistoryEl.append(initialsLi, )
+    
+
     
 
 }
 
-//set timer
+//set timerS
 function timeLeft () {
 
         timer--;
@@ -113,7 +123,7 @@ function checkAnswer (selectedOption){
 
 
     if(currentQuestion === 5){
-        //quiz should end
+       //quiz should end
         timerEl.textContent = "";
         clearInterval(timerInterval);
         containerEl.innerHTML = '';
