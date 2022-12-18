@@ -43,7 +43,7 @@ var questions = [
 ]
 
 function saveScores (initials) { 
-var allScores = JSON.parse(localStorage.getItem("allScores")) || [];
+   var allScores = JSON.parse(localStorage.getItem("allScores")) || [];
 
 
      var displayScore = {
@@ -66,6 +66,11 @@ var allScores = JSON.parse(localStorage.getItem("allScores")) || [];
     initialsLi.textContent = "Initials: " + element.initials + " Score: " + element.currentScore + "/5";
     scoreHistoryEl.append(initialsLi)
 });
+currentQuestion = 0;
+currentScore = 0;
+startButton.textContent = "Restart Quiz"
+startButton.setAttribute("style", "display:block")
+startButton.addEventListener("click", startQuiz);
 }
 
 //set timer
@@ -79,9 +84,9 @@ function timeLeft () {
             clearInterval(timerInterval);
             containerEl.innerHTML = "";
            var saveInitialsButton = document.createElement("button")
-        saveInitialsButton.textContent = "Save initials"
-        containerEl.append(initials, saveInitialsButton);
-        saveInitialsButton.addEventListener("click", function(){
+            saveInitialsButton.textContent = "Save initials"
+            containerEl.append(initials, saveInitialsButton);
+            saveInitialsButton.addEventListener("click", function(){
             saveScores(initials.value)
             containerEl.innerHTML = "";
             scoreEl.textContent = "";
@@ -174,4 +179,5 @@ answerQuestions();
 }
 
 //listen for start listen to be clicked
+startButton.textContent = "Start Quiz"
 startButton.addEventListener("click", startQuiz);
