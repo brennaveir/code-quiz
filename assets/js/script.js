@@ -57,33 +57,38 @@ var questions = [
 // }
 
 //enter initals and save score
+
+// function renderScores () {
+//     var allScores = JSON.parse(localStorage.getItem("newScores")) || [];
+// }
+
+
+
 function saveScores (initials) { 
     
-  
+   
     
-    var newScores = 
-        {
+    //push scores into array with objects
+    
+   var allScores = JSON.parse(localStorage.getItem("allScores")) || [];
+
+
+     var displayScore = {
         initials,
         currentScore
     }
     
-    //push scores into array with objects
-
-    
-    localStorage.setItem("newScores", JSON.stringify(newScores)) || [];
-    //  storedScores.push(newScores);   
-    var allScores = JSON.parse(localStorage.getItem("newScores"));
-    
+    allScores.push(displayScore);
+   localStorage.setItem("allScores",JSON.stringify(allScores));
+//    console.log(allScores)
+   for (var i = 0; i < allScores.length; i++) {
+  
     var initialsLi = document.createElement('li');
-   
+   initialsLi.textContent = allScores;
+    scoreHistoryEl.append(initialsLi)
 
-    initialsLi.textContent = "Initials: " + allScores.initials + " " + "Score: " +  allScores.currentScore;
-
-    scoreHistoryEl.append(initialsLi, )
+    }
     
-
-    
-
 }
 
 //set timerS
