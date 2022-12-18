@@ -80,14 +80,10 @@ function saveScores (initials) {
     
     allScores.push(displayScore);
    localStorage.setItem("allScores",JSON.stringify(allScores));
-//    console.log(allScores)
-   for (var i = 0; i < allScores.length; i++) {
-  
-    var initialsLi = document.createElement('li');
+   console.log(allScores.key)
+   var initialsLi = document.createElement('li');
    initialsLi.textContent = allScores;
     scoreHistoryEl.append(initialsLi)
-
-    }
     
 }
 
