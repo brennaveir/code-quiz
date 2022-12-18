@@ -63,7 +63,7 @@ var allScores = JSON.parse(localStorage.getItem("allScores")) || [];
     unorderedListEl.textContent = "Scores"
     allScores.forEach(element => {
     var initialsLi = document.createElement('li');
-    initialsLi.textContent = "Initials: " + element.initials + " Score: " + element.currentScore;
+    initialsLi.textContent = "Initials: " + element.initials + " Score: " + element.currentScore + "/5";
     scoreHistoryEl.append(initialsLi)
 });
 }
@@ -77,8 +77,15 @@ function timeLeft () {
         if(timer === 0){
             timerEl.textContent = "";
             clearInterval(timerInterval);
-            containerEl.textContent= "";
-           saveScores()
+            containerEl.innerHTML = "";
+           var saveInitialsButton = document.createElement("button")
+        saveInitialsButton.textContent = "Save initials"
+        containerEl.append(initials, saveInitialsButton);
+        saveInitialsButton.addEventListener("click", function(){
+            saveScores(initials.value)
+            containerEl.innerHTML = "";
+            scoreEl.textContent = "";
+        } )
         }
 
 }
@@ -118,7 +125,6 @@ function checkAnswer (selectedOption){
             scoreEl.textContent = "";
         } )
 
-     //  initials.appendChild(saveInitialsButton);
     }else{
         answerQuestions()
     }
@@ -158,10 +164,8 @@ function answerQuestions (){
 
 //ititiate quiz and go through array of questions
 function startQuiz () {
-// console.log("Test"); 
 startButton.setAttribute("style", "display:none")
 scoreHistoryEl.innerText = ""
-//timeLeft();
 
 timerInterval = setInterval(timeLeft, 1000)
 
@@ -169,6 +173,5 @@ answerQuestions();
 
 }
 
-    
 //listen for start listen to be clicked
 startButton.addEventListener("click", startQuiz);
