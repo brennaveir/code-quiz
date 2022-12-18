@@ -52,7 +52,13 @@ var allScores = JSON.parse(localStorage.getItem("allScores")) || [];
     }
     
     allScores.push(displayScore);
-    allScores.sort((a,b) => a-b);
+    allScores.sort(
+        (function (a,b) {
+        if (a.currentScore === b.currentScore) {
+            return a.currentScore - b.currentScore
+        }
+        return b.currentScore > a.currentScore ? 1 : -1
+    }));
    localStorage.setItem("allScores",JSON.stringify(allScores));
     unorderedListEl.textContent = "Scores"
     allScores.forEach(element => {
