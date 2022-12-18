@@ -12,10 +12,6 @@ var timerInterval
 var scoreHistoryEl = document.getElementById("scoreHistory");
 
 
-
-
-
-
 //Quiz questions
 var questions = [
     {
@@ -46,31 +42,8 @@ var questions = [
     }
 ]
 
-
-
-
-// function getScores () {
-//    var retrieveScores = JSON.parse(localStorage.getItem("newScores")) || [];
-// // console.log(retrieveScores)
-//    allScores = retrieveScores;
-//    scoreHistoryEl.textContent = allScores;
-// }
-
-//enter initals and save score
-
-// function renderScores () {
-//     var allScores = JSON.parse(localStorage.getItem("newScores")) || [];
-// }
-
-
-
 function saveScores (initials) { 
-    
-   
-    
-    //push scores into array with objects
-    
-   var allScores = JSON.parse(localStorage.getItem("allScores")) || [];
+var allScores = JSON.parse(localStorage.getItem("allScores")) || [];
 
 
      var displayScore = {
@@ -79,15 +52,17 @@ function saveScores (initials) {
     }
     
     allScores.push(displayScore);
+    allScores.sort((a,b) => a-b);
    localStorage.setItem("allScores",JSON.stringify(allScores));
-   console.log(allScores.key)
-   var initialsLi = document.createElement('li');
-   initialsLi.textContent = allScores;
+    unorderedListEl.textContent = "Scores"
+    allScores.forEach(element => {
+    var initialsLi = document.createElement('li');
+    initialsLi.textContent = "Initials: " + element.initials + " Score: " + element.currentScore;
     scoreHistoryEl.append(initialsLi)
-    
+});
 }
 
-//set timerS
+//set timer
 function timeLeft () {
 
         timer--;
@@ -97,7 +72,6 @@ function timeLeft () {
             timerEl.textContent = "";
             clearInterval(timerInterval);
             containerEl.textContent= "";
-            // document.body.removeChild(questionTitleEl, option1El, option2El, option3El, option4El);
            saveScores()
         }
 
@@ -144,7 +118,7 @@ function checkAnswer (selectedOption){
     }
 
 }
-
+// Cycle through each question
 function answerQuestions (){
     containerEl.innerHTML = ''
     var questionTitleEl = document.createElement('h2'); 
