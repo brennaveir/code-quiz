@@ -10,7 +10,7 @@ var unorderedListEl = document.getElementById("scoreHistory")
 var initials = document.createElement("input")
 var timerInterval
 var scoreHistoryEl = document.getElementById("scoreHistory");
-
+var scorebox = document.getElementById("scorebox")
 
 //Quiz questions
 var questions = [
@@ -66,6 +66,7 @@ function saveScores (initials) {
     initialsLi.textContent = "Initials: " + element.initials + " Score: " + element.currentScore + "/5";
     scoreHistoryEl.append(initialsLi)
 });
+//reset and allow user to play again
 currentQuestion = 0;
 currentScore = 0;
 startButton.textContent = "Restart Quiz"
@@ -75,8 +76,7 @@ startButton.addEventListener("click", startQuiz);
 
 //set timer
 function timeLeft () {
-
-        timer--;
+    timer--;
         timerEl.textContent = `${timer} seconds left`;
 
         if(timer === 0){
@@ -88,7 +88,7 @@ function timeLeft () {
             containerEl.append(initials, saveInitialsButton);
             saveInitialsButton.addEventListener("click", function(){
             saveScores(initials.value)
-            containerEl.innerHTML = "";
+            // containerEl.innerHTML = "";
             scoreEl.textContent = "";
         } )
         }
@@ -126,8 +126,9 @@ function checkAnswer (selectedOption){
         containerEl.append(initials, saveInitialsButton);
         saveInitialsButton.addEventListener("click", function(){
             saveScores(initials.value)
-            containerEl.innerHTML = "";
+            containerEl.innerHTML = "Check out the scores below!";
             scoreEl.textContent = "";
+            initials.value = "";
         } )
 
     }else{
@@ -169,10 +170,12 @@ function answerQuestions (){
 
 //ititiate quiz and go through array of questions
 function startQuiz () {
+timerInterval = setInterval(timeLeft, 1000)    
 startButton.setAttribute("style", "display:none")
 scoreHistoryEl.innerText = ""
+scoreEl.textContent = "Score = " + currentScore + "/5";
 
-timerInterval = setInterval(timeLeft, 1000)
+
 
 answerQuestions();
 
