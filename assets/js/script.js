@@ -126,9 +126,9 @@ function checkAnswer (selectedOption){
         containerEl.append(initials, saveInitialsButton);
         saveInitialsButton.addEventListener("click", function(){
             saveScores(initials.value)
-            containerEl.innerHTML = "Check out the scores below!";
             scoreEl.textContent = "";
             initials.value = "";
+            containerEl.innerText = "Check out the scores above!"
         } )
 
     }else{
@@ -174,7 +174,7 @@ timerInterval = setInterval(timeLeft, 1000)
 startButton.setAttribute("style", "display:none")
 scoreHistoryEl.innerText = ""
 scoreEl.textContent = "Score = " + currentScore + "/5";
-
+containerEl.innerhtml = "";
 
 
 answerQuestions();

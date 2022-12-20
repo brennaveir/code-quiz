@@ -7,38 +7,33 @@
 header {
     color: rgb(95, 7, 22);
    display:flex;
-   justify-content: space-around;
+   justify-content: center;
    align-items: center;
    background-color: white;
-   margin: 57px;
    border: 10px solid #dda4c3;
+   padding-left:40px;
 }
 
-container {
-    padding: 20px;
+#container {
+
     font-size: 24px;
     font-weight: bold;
+    color: rgb(95, 7, 22);
 }
 
 
-/* #score {
-    margin-top: 160px;
-    border: 5px solid darkblue;
-    background: white;
-} */
-
 body {
- /* display:flex; */
-    /* justify-content: center; */
-    /* flex-direction: column; */
-    /* align-items: center; */
-    /* padding:40px; */
-    /* border: 290px solid cornflowerblue; */
+ display:flex;
+   
+    flex-direction: column;
+    align-items: center;
+    
 }
    
 h1 {
     margin: 95px;
     background-color:white;
+    font-size: 50px;
 }
 
 h2 {
@@ -64,9 +59,8 @@ button:hover {
 
 }
 
-#btn-container {
-    display:flex;
-    justify-content: center;
+#startButton {
+   margin-right: 80px;
 }
 #container {
     display:flex;
@@ -98,20 +92,10 @@ ul {
 li {
    list-style: auto;
    background-color:white;
+   margin:10px;
 }
 
 input {
     margin:20px;
     text-align:center;
 }
-
-#scorebox {
-    display:flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    margin: 60px;
-    padding: 70px;
-    border: 10px solid #dda4c3;
-    background-color:white;
-}  
