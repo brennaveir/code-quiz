@@ -10,3 +10,4 @@ This webpage was created using javascript, HTML, CSS. Using javascript, the quiz
 ![Code Quiz scores screenshot](./assets/images/scores-page.png)
 
 ## Application Link
+https://brennaveir.github.io/code-quiz/
